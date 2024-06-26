@@ -1,0 +1,35 @@
+---
+- name: Apply security updates to all hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update the package cache
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Apply security updates (Debian/Ubuntu)
+      ansible.builtin.apt:
+        upgrade: dist
+        autoclean: yes
+        autoremove: yes
+      when: ansible_os_family == "Debian"
+
+
+
+
+    - name: Update the yum cache (Amazon Linux)
+      ansible.builtin.yum:
+        update_cache: yes
+      when: ansible_os_family == "RedHat" and ansible_distribution == "Amazon"
+
+    - name: Upgrade all packages (Amazon Linux)
+      ansible.builtin.yum:
+        name: '*'
+        state: latest
+        security: yes
+      when: ansible_os_family == "RedHat" and ansible_distribution == "Amazon"
+
+
+
+
