@@ -1,5 +1,3 @@
-# Ansible-project
-
 # How to setup Passwordless Authentication
 
 
